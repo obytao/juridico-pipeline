@@ -1,0 +1,81 @@
+{# Template Jinja2 - Petição Inicial Previdenciária #}
+{# Campos {{ }} = substituído diretamente do case_sheet.json (determinístico) #}
+{# Blocos {{ bloco_xxx }} = gerado por Claude (argumentativo) #}
+
+**EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) FEDERAL DA ___ VARA DO JUIZADO ESPECIAL FEDERAL DE {{ beneficio_competencia_value | upper }}**
+
+---
+
+{{ cliente_nome_value | upper }}, {{ cliente_nacionalidade | default('brasileiro(a)') }}, portador(a) do CPF n. {{ cliente_cpf_value }}, residente e domiciliado(a) em {{ cliente_endereco_value }}, por intermédio de seu advogado que esta subscreve, vem, com o devido respeito e acatamento à Vossa Excelência, propor a presente
+
+# AÇÃO PREVIDENCIÁRIA DE {{ beneficio_tipo_value | upper }}
+
+EM FACE DO INSTITUTO NACIONAL DO SEGURO SOCIAL – INSS, pelos fatos e fundamentos jurídicos a seguir aduzidos:
+
+---
+
+## I – DOS FATOS
+
+{{ bloco_dos_fatos }}
+
+---
+
+## II – DO DIREITO
+
+### Da Qualidade de Segurado
+
+{{ bloco_qualidade_segurado }}
+
+### Do Direito ao Benefício
+
+{{ bloco_direito_beneficio }}
+
+{% if incapacidade_doenca_cid_value %}
+### Da Incapacidade Laborativa
+
+{{ bloco_incapacidade }}
+{% endif %}
+
+### Da Jurisprudência Aplicável
+
+{{ bloco_jurisprudencia }}
+
+---
+
+## III – DOS PEDIDOS
+
+Diante do exposto, requer-se:
+
+a) A concessão dos benefícios da **JUSTIÇA GRATUÍTA**, nos termos do art. 98 do CPC e art. 54 da Lei 9.099/95;
+
+b) A citação do INSS para que, querendo, conteste a presente ação;
+
+c) A **concessão do benefício de {{ beneficio_tipo_value }}**, com DIB fixada em {{ beneficio_der_value | default('data do requerimento administrativo') }}, com pagamento das parcelas vencidas acrescidas de juros e correção monetária;
+
+{% for pedido in tese_pedidos_secundarios %}
+d) {{ pedido.value }};
+{% endfor %}
+
+e) A conversão do rito, caso o valor da causa supere o limite do JEF;
+
+f) A produção de todos os meios de prova em direito admitidos.
+
+---
+
+## IV – DO VALOR DA CAUSA
+
+{% if tese_valor_causa_estimado_value %}
+Dá-se à causa o valor de **R$ {{ tese_valor_causa_estimado_value }}** ({{ tese_valor_causa_estimado_value | extenso | default('') }}).
+{% else %}
+Dá-se à causa o valor de **R$ 1.000,00 (mil reais)**, para fins de distribuição.
+{% endif %}
+
+---
+
+**Termos em que,
+Pede deferimento.**
+
+{{ beneficio_competencia_value }}, {{ data_hoje }}.
+
+**{{ advogado_nome | default('[NOME DO ADVOGADO]') }}**
+OAB/{{ advogado_uf | default('[UF]') }} n. {{ advogado_oab | default('[Número OAB]') }}
