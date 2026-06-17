@@ -1,0 +1,59 @@
+{
+  "template": "peticao_inicial_previdenciaria.j2",
+  "description": "Regras de preenchimento para Petição Inicial Previdenciária",
+  "llm_blocks": {
+    "bloco_dos_fatos": {
+      "instruction": "Narre os fatos do caso em linguagem jurídica formal. Descreva a situação do cliente, o requerimento administrativo junto ao INSS, a decisão administrativa e seus fundamentos. Seja cronológico e objetivo. Não inclua teses jurídicas aqui, apenas os fatos.",
+      "inputs": [
+        "cliente.nome",
+        "beneficio.tipo",
+        "beneficio.der",
+        "beneficio.dcb",
+        "beneficio.status_administrativo",
+        "beneficio.motivo_cessacao",
+        "incapacidade.doenca_cid",
+        "incapacidade.data_inicio_incapacidade"
+      ]
+    },
+    "bloco_qualidade_segurado": {
+      "instruction": "Demonstre a qualidade de segurado do cliente na data do requerimento (DER). Mencione o NIT/PIS, o tempo de contribuição comprovado pelo CNIS e a qualidade de segurado. Cite o art. 15 da Lei 8.213/91 se pertinente.",
+      "inputs": [
+        "cliente.nit_pis",
+        "beneficio.der",
+        "tempo_contribuicao.total_meses_cnis",
+        "tempo_contribuicao.qualidade_segurado_der",
+        "tempo_contribuicao.data_perda_qualidade"
+      ]
+    },
+    "bloco_direito_beneficio": {
+      "instruction": "Fundamente juridicamente o direito ao benefício pleiteado. Cite os artigos da Lei 8.213/91 aplicáveis, os requisitos legais e como o cliente os preenche. Inclua o fundamento para fixar a DIB na DER.",
+      "inputs": [
+        "beneficio.tipo",
+        "beneficio.der",
+        "tese.fundamento_principal",
+        "tese.fundamentos_secundarios",
+        "tempo_contribuicao.total_meses_cnis"
+      ]
+    },
+    "bloco_incapacidade": {
+      "instruction": "Disserte sobre a incapacidade laborativa do cliente. Mencione o CID, a data de início da incapacidade, os laudos existentes e a ausência de possibilidade de reabilitação (se aplicável). Cite o art. 42 ou 59 da Lei 8.213/91 conforme o benefício.",
+      "inputs": [
+        "incapacidade.doenca_cid",
+        "incapacidade.data_inicio_incapacidade",
+        "incapacidade.incapacidade_atual",
+        "incapacidade.incapacidade_total",
+        "incapacidade.laudo_pericial_particular",
+        "incapacidade.historico_medico"
+      ]
+    },
+    "bloco_jurisprudencia": {
+      "instruction": "Cite jurisprudência relevante do STJ, TRF e TNU favorável ao cliente. Inclua o entendimento súmulas e teses repetitivas aplicáveis ao caso. Seja específico e cite os números dos julgados quando possível.",
+      "inputs": [
+        "beneficio.tipo",
+        "tese.jurisprudencia_aplicavel",
+        "tese.fundamento_principal",
+        "incapacidade.doenca_cid"
+      ]
+    }
+  }
+}
